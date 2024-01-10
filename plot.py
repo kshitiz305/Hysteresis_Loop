@@ -54,19 +54,17 @@ def calculate_y_intercept(point1, point2):
 
 def y_axis_intercept_calculation(numbers):
     numbers = list(numbers)
-    plt.figure()
-    plt.grid()
     positive_numbers_x_greater = [num for num in numbers if num[0] > 0]
-    nearest_positive_x_positive_y = sorted(positive_numbers_x_greater, key=lambda a: a[0])[0]
-    plt.plot(*nearest_positive_x_positive_y, '*')
-    nearest_positive_x_negative_y = sorted(positive_numbers_x_greater, key=lambda a: a[1])[0]
-    plt.plot(*nearest_positive_x_negative_y, '*')
+    nearest_positive_x_positive_y = sorted([i for i in positive_numbers_x_greater if i[1]>0], key=lambda a: a[0])[0]
+    # plt.plot(*nearest_positive_x_positive_y, '*')
+    nearest_positive_x_negative_y = sorted([i for i in positive_numbers_x_greater if i[1]<0], key=lambda a: a[1])[0]
+    # plt.plot(*nearest_positive_x_negative_y, '*')
 
     negative_numbers_x_lesser = [num for num in numbers if num[0] < 0]
-    nearest_negative_x_positive_y = sorted(negative_numbers_x_lesser, key=lambda a: a[0], reverse=True)[0]
-    plt.plot(*nearest_negative_x_positive_y, '*')
-    nearest_negative_x_negative_y = sorted(negative_numbers_x_lesser, key=lambda a: a[1], reverse=True)[0]
-    plt.plot(*nearest_negative_x_negative_y, '*')
+    nearest_negative_x_positive_y = sorted([i for i in negative_numbers_x_lesser if i[1]<0], key=lambda a: a[0], reverse=True)[0]
+    # plt.plot(*nearest_negative_x_positive_y, '*')
+    nearest_negative_x_negative_y = sorted([i for i in negative_numbers_x_lesser if i[1]>0], key=lambda a: a[1], reverse=True)[0]
+    # plt.plot(*nearest_negative_x_negative_y, '*')
 
     positive_y_intercept = calculate_y_intercept(nearest_negative_x_negative_y, nearest_positive_x_positive_y)
     negative_y_intercept = calculate_y_intercept(nearest_positive_x_negative_y, nearest_negative_x_positive_y)
@@ -98,7 +96,7 @@ def x_axis_intercept_calculation(numbers):
 # Usage
 # file_path = 'Phone12.csv' # replace with your file path
 
-def iterate_over_file(file_path,NEW_GRAPH_CORDINATES):
+def iterate_over_file(file_path,POSITIVE_NEW_GRAPH_CORDINATES,NEGATIVE_NEW_GRAPH_CORDINATES):
     df = read_csv_from_keyword(file_path)
     df.dropna(inplace=True)
 
@@ -145,7 +143,8 @@ def iterate_over_file(file_path,NEW_GRAPH_CORDINATES):
 
 
 for file_path in get_files("Phone12","csv"):
-    iterate_over_file(file_path, POSITIVE_NEW_GRAPH_CORDINATES)
+    # file_path = 'Phone12.csv'
+    iterate_over_file(file_path, POSITIVE_NEW_GRAPH_CORDINATES,NEGATIVE_NEW_GRAPH_CORDINATES)
     i_cordinate+=1
 
 print(POSITIVE_NEW_GRAPH_CORDINATES,NEGATIVE_NEW_GRAPH_CORDINATES)
@@ -167,3 +166,7 @@ plt.plot(x_values, y_values,"o")
 plt.xlabel('Graph number')
 plt.ylabel('Y intercepts')
 plt.title('New Graph')
+plt.show()
+
+
+
